@@ -110,7 +110,12 @@ class PollReader():
                 count += 1
                 harris_sum = self.data_dict["Harris result"] [i]
                 trump_sum = self.data_dict["Trump result"] [i]
-                pass
+            
+        if count != 0:
+            return (harris_sum / count, trump_sum / count)
+        else: 
+            return (0,0)
+        pass
 
 
     def polling_history_change(self):
@@ -124,6 +129,13 @@ class PollReader():
             tuple: A tuple containing the net change for Harris and Trump, in that order.
                    Positive values indicate an increase, negative values indicate a decrease.
         """
+        early_harris = sum(self.data_dict["Harris result"] [:30]) /30
+        early_trump = sum(self.data_dict["Harris result"] [:30]) /30
+
+        late_harris = sum(self.data_dict["Harris result"] [-30:]) /30
+        late_trump = sum(self.data_dict["Harris result"] [-30:]) /30
+
+        return ((late_harris - early_harris,) , (late_trump - early_trump))
         pass
 
 
